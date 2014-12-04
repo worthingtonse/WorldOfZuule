@@ -4,7 +4,7 @@ import java.util.HashMap;
  * Creates the game with rooms, equipment, treasure etc. 
  * 
  * @author Sean Worthington
- * @version 11/17/2014
+ * @version 12/03/2014
  */
 public class World
 {
@@ -12,6 +12,7 @@ public class World
     private static Character player;
     private static ArrayList<Room> rooms;
     public HashMap<String, Equipment> items;
+    //private HashMap < String, Room> roomLookup;//Name of a room to the door? Might not be needed. 
     private ArrayList<Door> doors;
     public Room currentRoom;
 
@@ -34,71 +35,53 @@ public class World
             Room teleporter = new Room("You are telported to room with four doors and a ladder going up and down.");
             Room fountain = new Room("in a large room with a fountain. There is a key in the fountain.");
             Room t_hall = new Room("in a hall that goes to a T. Stench comes from the west. Green glow from the east.");
-            Room trap_room = new Room("Empty Room with a opening to the east.");
+            Room trap_room = new Room("A 20 x 20 room with an opening to the east that glows green and a trap door in the center of the room. There is a door to the West also.");
             Room treasure = new Room("in the tresure room. Mounds of gold fill the floor. \n There is ladder going up.");
             Room crypt = new Room("in a crypt. Four coffins are in the room.");
             Room landing_room = new Room("The floor glows green with magic symbols.");
             Room outside = new Room("You are outside!.");
         
         currentRoom = entrance;
-        
-        //Make doors
-        doors = new ArrayList<Door>();
-            Door north = new Door("North");
-            Door east = new Door("East");
-            Door west = new Door("West");
-            Door south = new Door("South");
-            Door up = new Door("Up");
-            Door down = new Door("Down");
-            Door iron = new Door("Iron");
-            Door rotten = new Door("Rotten");
-                //add each door to doors collection
-                doors.add(north);
-                doors.add(east);
-                doors.add(south);
-                doors.add(west);
-                doors.add(up);
-                doors.add(down);
-                doors.add(iron);
-                doors.add(rotten);
+
     
         //Connect rooms via doors and specifiy if they are locked. 
-        entrance.setDoor("east", pit_room, false);
+        entrance.setDoor("East", pit_room, false);
 
-        pit_room.setDoor("east", corridor, false);
-        pit_room.setDoor("west", entrance, false);
+        pit_room.setDoor("East", corridor, false);
+        pit_room.setDoor("West", entrance, false);
 
-        corridor.setDoor("iron", t_hall, true);
-        corridor.setDoor("rotten", fountain, false);
-        corridor.setDoor("south", teleport, false);
-        corridor.setDoor("west", entrance, false);
+        corridor.setDoor("Iron Door", t_hall, true);
+        corridor.setDoor("Rotten Door", fountain, false);
+        corridor.setDoor("South", teleport, false);
+        corridor.setDoor("West", entrance, false);
         
-        fountain.setDoor("west", corridor, false);
+        fountain.setDoor("West", corridor, false);
 
-        teleport.setDoor("west", teleporter, false);
-        teleport.setDoor("north", corridor, false);
+        teleport.setDoor("Teleport", teleporter, false);
+        teleport.setDoor("North", corridor, false);
    
-        t_hall.setDoor("east", trap_room, false);
-        t_hall.setDoor("west", crypt, false);
-        t_hall.setDoor("south", corridor, false);     
+        t_hall.setDoor("East", trap_room, false);
+        t_hall.setDoor("West", crypt, false);
+        t_hall.setDoor("South", corridor, false);     
 
         crypt.setDoor("east", t_hall, false);
         
-        trap_room.setDoor("west", t_hall, false);
-        trap_room.setDoor("east", landing_room, true);
+        trap_room.setDoor("West", t_hall, false);
+        trap_room.setDoor("Trap Door", pit_room, false);
+        trap_room.setDoor("East", landing_room, true);
 
-        landing_room.setDoor("east", treasure, false);
-        landing_room.setDoor("west", trap_room, false);
+        landing_room.setDoor("East", treasure, false);
+        landing_room.setDoor("West", trap_room, false);
         
-        treasure.setDoor("west", landing_room, false);
-        treasure.setDoor("up", outside, false);
+        treasure.setDoor("West", landing_room, false);
+        treasure.setDoor("Up", outside, false);
         
-        teleporter.setDoor("west", treasure, false);
-        teleporter.setDoor("east", entrance, false);
-        teleporter.setDoor("up", fountain, false);
-        teleporter.setDoor("down", crypt, false);
-        teleporter.setDoor("north", t_hall, false);
-        teleporter.setDoor("south", pit_room, false);        
+        teleporter.setDoor("Treasure Room", treasure, false);
+        teleporter.setDoor("Entrance", entrance, false);
+        teleporter.setDoor("Fountain", fountain, false);
+        teleporter.setDoor("Crypt", crypt, false);
+        teleporter.setDoor("T Hall", t_hall, false);
+        teleporter.setDoor("Pit Room", pit_room, false);        
         
         
         //Create items and equipment
@@ -115,9 +98,10 @@ public class World
         fountain.addItem(items.get("key"));
         
         //Create character
-        Character orc1 = new Character("Grunge the Orc", "Half Dead Orc on the ground", CharacterClass.FIGHTER, "I'd kill you but the ghouls tore me up something.");
+        Character orc1 = new Character("Grunge the Orc", "Half Dead Orc on the ground:", CharacterClass.FIGHTER, "I'd kill you but this game doesn't allow combat. You'll have to figure that out in a different lab!");
         corridor.addCharacter(orc1);
-       
+       Character bill = new Character("Bill the Magician", "Magic user who is also a pyromaniac:", CharacterClass.MAGIC_USER, "I'm stuck in this magic circle. Here is a fireball spell to help  you on  your journey. To bad this program doesn't do magic.");
+       landing_room.addCharacter(bill);
     }//End constructor
 
         //Methdods

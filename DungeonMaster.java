@@ -33,7 +33,7 @@ public class DungeonMaster {
                  
          }//End While
           
-        System.out.println("Thank you for playing Zuul. Goodbye.");
+        System.out.println("Thank you for playing Zuule. Goodbye.");
     }//End main
     
     
@@ -186,41 +186,49 @@ public class DungeonMaster {
     
     public static void play() {
 
-        boolean finished = false;
+        boolean restart = false;
 
-        while( ! finished )
+        while( ! restart )
         {
-            String[] commands =world1.currentRoom.getCommands();
+            String[] commandsAvailable = world1.currentRoom.getCommands();
             
-            reader.setPrompt(Arrays.toString( commands ) + "> ");
-            System.out.println(world1.currentRoom.getLongDescription());
-            String command = reader.readString(commands);
-            String[] commandTokkens = command.split(" ");//splits command using spaces
-            String word1 = commandTokkens[0];
+            reader.setPrompt(Arrays.toString( commandsAvailable ) + "> ");
+            
+            System.out.println( world1.currentRoom.getLongDescription() );
+            
+            String commandRecieved = reader.readString( commandsAvailable );
+            
+            String firstWord = "help";//set it to help just in case they leave it blank
+            String lastWords = null;
+            if( commandRecieved.contains(" "))
+            {
+                    firstWord = commandRecieved.substring(0, commandRecieved.indexOf(" ")); 
+                    lastWords = commandRecieved.substring( commandRecieved.indexOf(" "), commandRecieved.length()); 
+            }//end if command recieved has a space in it
        
-            switch( word1.toLowerCase() )
+            switch( firstWord.toLowerCase() )
             {
              case "help":
-                executeHelp(commands);
+                executeHelp( commandsAvailable );
              break;
              case "restart":
                 System.out.println("Restarting game.");
-                finished = true;
+                restart = true;
              break;
              case "quit":
                  System.exit(0);
              break;
              case "go":
-                executeGo(commandTokkens[1]);//pass second word
+                executeGo( lastWords.trim() );//pass second word
              break;
              case "take":
-                 executeTake(commandTokkens[1]);//pass second word
+                 executeTake( lastWords.trim() );//pass second word
              break;
              case "use":
-                 executeUse(commandTokkens[1]);//pass second word
+                 executeUse( lastWords.trim() );//pass second word
              break;
              case "unlock":
-                 executeUnlock(commandTokkens[1]);//pass second word
+                 executeUnlock( lastWords.trim() );//pass second word
              break;
              default:
               System.out.println("Command failed. Try again.");
@@ -232,14 +240,14 @@ public class DungeonMaster {
     
     public static void executeUnlock( String direction )
     {
-        if(world1.currentRoom.getDoor(direction).isLocked()) 
+        if(world1.currentRoom.getDoor(direction).isLocked) 
         {
             if(world1.items.get("key")==null) {
                 System.out.println("Sorry but you don't have a key. You will need to take one.");
             }
             else 
             {
-                world1.currentRoom.getDoor(direction).setLock(false);
+                world1.currentRoom.getDoor(direction).isLocked = false;
                 System.out.println("You have unlocked the door.");
 
             }
@@ -248,7 +256,7 @@ public class DungeonMaster {
     
     public static void executeHelp( String[] commands)
     {
-        System.out.println(world1.getCurrentRoom().getLongDescription());
+        System.out.println( wrap( world1.getCurrentRoom().getLongDescription() ) );
         System.out.println();
         System.out.println("Your command words are:");
         System.out.println( Arrays.toString( commands ) );
@@ -266,11 +274,12 @@ public class DungeonMaster {
     public static void executeGo( String direction )
     {
         // Try to leave current room.
-        Room nextRoom =world1.currentRoom.getExit( direction );
+        Room nextRoom = world1.currentRoom.getExit( direction );
 
-        if(world1.currentRoom.getDoor(direction).isLocked()) 
+        if( world1.currentRoom.getDoor(direction).isLocked) 
         {
-            if(world1.items.get("Key")==null) {
+            if( world1.items.get("Key") == null) 
+            {
                 System.out.println("Sorry but the door is locked ! You will need to use a key.");
             }
             else 
@@ -281,12 +290,12 @@ public class DungeonMaster {
         }
         else 
         {
-            setCurrentRoom(nextRoom);
+            world1.currentRoom = nextRoom;
             //Check if there are Character in the room
             //
-            Character person =world1.currentRoom.getCharacter(); 
+            Character person = world1.currentRoom.getCharacter(); 
             if(person != null && !person.hasSpoken()) {
-                System.out.println("\nThere is a person in this Room...\n" + person.getName()+". "+ person.getDescription()+ ": " + person.getDialogue());
+                System.out.println(  wrap("\nThere is a person in this Room...\n" + person.getName()+". "+ person.getDescription()+ ": " + person.getDialogue()));
                 person.setHasSpoken(true);
             }
             
@@ -296,7 +305,7 @@ public class DungeonMaster {
     
     public static void executeUse(String item)
     {
-       System.out.println( "use not working yet");
+       System.out.println( "use not working yet" );
        if(world1.items.get("Key")==null) {
                 System.out.println("Sorry but the door is locked ! Use the unlock command if you have a key.");
             }
@@ -307,11 +316,33 @@ public class DungeonMaster {
             }
   
     }
-    
-    
-    public static void setCurrentRoom(Room room)
-    {
-       world1.currentRoom = room;
-    }
  
+    
+/**
+ * This method wraps long text in the console so that it is easier to read
+ */
+private static String wrap(String longString) {
+    int MAX_WIDTH = 80;
+    String[] splittedString = longString.split(" ");
+    String resultString = "";
+    String lineString = "";
+
+    for (int i = 0; i < splittedString.length; i++) {
+        if (lineString.isEmpty()) {
+            lineString += splittedString[i];
+        } else if (lineString.length() + splittedString[i].length() < MAX_WIDTH) {
+            lineString += splittedString[i] + " ";
+        } else {
+            resultString += lineString + "\n";
+            lineString = " ";
+        }
+    }
+
+    if(!lineString.isEmpty()){
+            resultString += lineString + "\n";
+    }
+
+    return resultString;
+}
+    
 }//Endworld1

@@ -1,55 +1,38 @@
- 
-
-/**
- * This class is part of the "World of NolsPotLex" application. "World of NolsPotLex" is a
- * very simple, text based adventure game.
+ /**
+ * World of Zuule
  * 
  * A "Door" represents an exit in room of the scenery of the game.
- * 
- * @author Alexandre Boursier & Nolan Potier
- * @version 2011.10.25
  */
 
-public class Door {
-    private String name;
-    private Boolean isLocked;
+public class Door 
+{
+    //Fields
+    public String name;
+    public Boolean isLocked;
+    Room roomOnOtherSideOfDoor;
 
+    //Constructors
     /**
-     * Creates a new door.
+     * Creates a new door or portal.
      * @param name is the name of the door.
+     * @param isLocked true if the door is locked and false if the door is unlocked. 
      */
-    public Door(String name){
+    public Door(String name,  Room roomOnOtherSideOfDoor, boolean isLocked ){
         this.name = name;
+        this.isLocked = isLocked;
+        this.roomOnOtherSideOfDoor = roomOnOtherSideOfDoor; //Door starts not connected to any rooms
+        
+    }//end constructor
+
+
+    //Methods
+    /**
+     * Unlocks the door.
+     */
+    public void unlock(){
         isLocked = false;
-    }
+    }//End Method unlock
 
-    /**
-     * Locks or unlocks the door.
-     * @param value true if we want to lock the door, false otherwise.
-     */
-    public void setLock(Boolean value){
-        isLocked = value;
-    }
-
-    /**
-     * Indicates whether the door is locked or not.
-     * @return true if the door is locked, false otherwise.
-     */
-    public Boolean isLocked(){
-        return isLocked;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-}
+  
+    
+}//end class Door
