@@ -1,10 +1,9 @@
 /**
  * Enumeration class CharacterClass - write a description of the enum class here
  * 
- * @ Michael Nielsen
- * @version (version number or date here)
+ * @version 12/24/2014
  */
-public enum CharacterClass
+public enum Vocation
 {
     FIGHTER, THIEF, MAGIC_USER, CLERIC, DRUID
 }

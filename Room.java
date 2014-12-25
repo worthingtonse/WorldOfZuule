@@ -13,7 +13,7 @@ public class Room{
     //fields
     public String description;
     public ArrayList<Door> doors;
-    private Character person ;
+    private Monster monster ;
     public Equipment item;   
   //private ArrayList<Monster> monsters;
   //private ArrayList<Purse> treasure;
@@ -109,8 +109,8 @@ public class Room{
      * Add a character to the room
      * @param person
      */
-    public void addCharacter(Character person) {
-        this.person = person;
+    public void addMonster(Monster monster) {
+        this.monster = monster;
     }
 
     /**
@@ -170,8 +170,8 @@ public class Room{
      * 
      * @return the character of the room
      */
-    public Character getCharacter() {
-        return this.person;
+    public Monster getMonster() {
+        return this.monster;
     }    
 
 }//end room

@@ -9,7 +9,7 @@ public class Character
 {
     //Fields
     public String characterName;
-    public CharacterClass charClass;
+    public Vocation charClass;
     public int STR; //strength
     public int INT; //intelligence
     public int WIS; //wisdom
@@ -28,15 +28,11 @@ public class Character
     //public Backpack backpack;
     //public Armor armor;
     public int maxDamage;
-    private String dialogue;
-    private boolean hasSpoken;
-    private String description;
     
     //Constructors
-    public Character(String characterName, String description, CharacterClass charClass, String dialogue)
+    public Character(String characterName,  Vocation charClass )
     {
-        this.characterName = characterName;
-        this.description = description;
+       
         this.charClass = charClass;
         
         /**
@@ -114,8 +110,7 @@ public class Character
         /**
         * What the character will say if spoken too.
         */
-        this.dialogue = dialogue;
-        hasSpoken = false;
+      
     }//end constructor
 
     //Methods
@@ -219,59 +214,7 @@ public class Character
         characterName = name;
     }
 
-    /**
-     * @return the dialogue
-     */
-    public String getDialogue() {
-        return dialogue;
-    }
-
-    /**
-     * Define the dialogue of character when meeting
-     * 
-     * @param dialogue 
-     *          the dialogue to set
-     */
-    public void setDialogue(String dialogue) {
-        this.dialogue = dialogue;
-    }
-    
-    /**
-     * Define the dialogue of character when meeting
-     * 
-     * @param dialogue 
-     *          the dialogue to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-        /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-    
-    /**
-     * Check if character has spoken or not
-     * 
-     * @return the hasSpoken
-     */
-    public boolean hasSpoken() {
-        return hasSpoken;
-    }
-
-    /**
-     * Define if character has spoken or not
-     * 
-     * @param hasSpoken 
-     *          the hasSpoken to set
-     */
-    public void setHasSpoken(boolean hasSpoken) {
-        this.hasSpoken = hasSpoken;
-    }
-    
+ 
     public int roll3D6()
     {
         /**
@@ -323,7 +266,7 @@ public class Character
     {
         System.out.println("╔══════════════════════════════╗");
         System.out.println("║  Your characters name is: " + characterName);
-        System.out.println("║  Description: " + description);
+        
         switch( charClass )
         {
          case FIGHTER:
@@ -351,7 +294,6 @@ public class Character
         System.out.println("║  Attack Bonus: " + attackBonus + "    Damage Bonus: " + damageBonus +"    Armor Bonus: " + armorBonus);
         System.out.println("║  Gold Pieces: " + gp + "    Experience Points: " + exp + "    Hit Points: " + hp );
         System.out.println("║  Armor Class: " + ac);
-        System.out.println("║  "+characterName + " says: " + dialogue );
         System.out.println("╚═════════════════════════════════════╝");
     }
     

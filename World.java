@@ -98,10 +98,10 @@ public class World
         fountain.addItem(items.get("key"));
         
         //Create character
-        Character orc1 = new Character("Grunge the Orc", "Half Dead Orc on the ground:", CharacterClass.FIGHTER, "I'd kill you but this game doesn't allow combat. You'll have to figure that out in a different lab!");
-        corridor.addCharacter(orc1);
-       Character bill = new Character("Bill the Magician", "Magic user who is also a pyromaniac:", CharacterClass.MAGIC_USER, "I'm stuck in this magic circle. Here is a fireball spell to help  you on  your journey. To bad this program doesn't do magic.");
-       landing_room.addCharacter(bill);
+        Monster orc1 = new Monster("Grunge the Orc", "Half Dead Orc on the ground:", "I'd kill you but this game doesn't allow combat. You'll have to figure that out in a different lab!");
+        corridor.addMonster(orc1);
+       Monster bill = new Monster("Bill the Magician", "Magic user who is also a pyromaniac:", "I'm stuck in this magic circle. Here is a fireball spell to help  you on  your journey. To bad this program doesn't do magic.");
+       landing_room.addMonster(bill);
     }//End constructor
 
         //Methdods
