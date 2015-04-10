@@ -26,6 +26,18 @@ public class World
     {
         this.player = player;
         
+        /*INSTRUCTIONS TO STUDENTS
+* 1. Draw a dungeon with about 10 rooms.
+* 2. Create a name and description for each room.
+* 2. Delete all the rooms below and add you own room name and description
+* 3. Give each door a name. set doors on each room specifing the name of the door, where the door goes to and if the door is locked or not (True or False).
+* 4.Add Eqipments such as keys. 
+* 5.Add monsters to rooms. 
+*/
+
+ 
+        
+        
         //Make rooms
         rooms = new ArrayList<Room>();
             Room entrance = new Room("near a door in the side of the hill that seems to have been there for awhile.\n You open the door and enter into a hall.");
