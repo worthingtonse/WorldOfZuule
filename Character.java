@@ -34,7 +34,7 @@ public class Character
     {
        
         this.charClass = charClass;
-        
+        this.characterName = characterName;
         /**
          * Number of STRength points
          * given based on a random roll of 3 6-sided dye.

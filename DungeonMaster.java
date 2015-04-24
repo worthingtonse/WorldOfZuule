@@ -53,7 +53,7 @@ public class DungeonMaster {
     private static void makeCharacter()
     {
 
-        System.out.println("Auto generate character?");
+        System.out.println("Auto generate character? t for yes, f for no.");
         boolean quickGenerate = reader.readBoolean();
 
         if( quickGenerate){
@@ -127,9 +127,9 @@ public class DungeonMaster {
             "5.) Magic User. \n" + 
             "6.) Druid. \n"); 
         int charClass = reader.readInt(1,5);
-        
-          System.out.println("What do you want to name your character?");
-    String name = reader.readString();
+
+        System.out.println("What do you want to name your character?");
+        String name = reader.readString();
 
         switch(charClass)
         { 
@@ -154,257 +154,267 @@ public class DungeonMaster {
             break;
         }//end switch
 
-   
   
+        //Make the player the slow way
+        System.out.println("Pick your weapon....\n" + 
+            "1.) Long Sword. \n" + 
+            "2.) Battle Axe. \n" + 
+            "3.) Double Daggers. \n");
+        int Wep = reader.readInt(1,3);
+        switch(Wep)
+        { 
+            case 1:
+            player1.maxDamage = 10;
+            break;
 
-    //Make the player the slow way
+            case 2:
+            player1.maxDamage = 12;
+            player1.attackBonus = player1.attackBonus - 2;
+            break;
 
-    System.out.println("Pick your weapon....\n" + 
-    "1.) Long Sword. \n" + 
-    "2.) Battle Axe. \n" + 
-    "3.) Double Daggers. \n");
-    int Wep = reader.readInt(1,3);
-    switch(Wep)
-    { 
-        case 1:
-        player1.maxDamage = 10;
-        break;
+            case 3:
+            player1.maxDamage = 8;
+            player1.attackBonus = player1.attackBonus + 2;
+            break;
+        }//end switch
+        System.out.println("\n");
+        System.out.println("Pick your Magic....\n" + 
+            "1.) Electric Burst \n" + 
+            "2.) Fire Blast \n" + 
+            "3.) Heal Self \n");
+        int Mag = reader.readInt(1,3);
+        switch(Mag)
+        {
+            case 1:
+            //not used
+            break;
 
-        case 2:
-        player1.maxDamage = 12;
-        player1.attackBonus = player1.attackBonus - 2;
-        break;
+            case 2:
+            //not used
+            break;
 
-        case 3:
-        player1.maxDamage = 8;
-        player1.attackBonus = player1.attackBonus + 2;
-        break;
-    }//end switch
-    System.out.println("\n");
-    System.out.println("Pick your Magic....\n" + 
-    "1.) Electric Burst \n" + 
-    "2.) Fire Blast \n" + 
-    "3.) Heal Self \n");
-    int Mag = reader.readInt(1,3);
-    switch(Mag)
+            case 3:
+            //not used
+            break;
+        }//end switch
+        System.out.println("\n");
+        System.out.println("Pick your Armor....\n" + 
+            "1.) Light Armor (+2 to A.C.)\n" + 
+            "2.) Medium Armor (+4 to A.C. -2 to Initative Bonus) \n" + 
+            "3.) Heavy Armor (+6 to A.C. -4 to Initative Bonus\n");
+        int Armor = reader.readInt(1,3);
+        switch(Armor)
+        {
+            case 1:
+            player1.ac = player1.ac + 2;
+            break;
+
+            case 2:
+            player1.ac = player1.ac + 4;
+
+            //player1.inititive = player.inititive -2;
+            break;
+
+            case 3:
+            player1.ac = player1.ac + 4;
+            //player1.inititive = player.inititive -4;
+            break;
+        }//end switch
+        System.out.println("\n");
+        System.out.println("Pick your Ability....\n" + 
+            "1.) Improved Initative (+4 to Initative Bonus) \n" + 
+            "2.) Combat Expertise (+2 to To Hit Bonus)  \n" + 
+            "3.) Evasive (+2 to A.C.) \n");
+        int Feat = reader.readInt(1,3);
+        switch(Feat)
+        {
+            case 1:
+            //player1.inititive = player.inititive -2;
+            break;
+
+            case 2:
+            player1.attackBonus = player1.attackBonus + 2;
+            break;
+
+            case 3:
+            player1.ac = player1.ac + 2;
+            break;
+        }//end switch
+
+    }//end make character
+
+    public static void play() {
+        boolean restart = false;
+        System.out.println( world1.currentRoom.getLongDescription() );
+        while( ! restart )
+        {
+            String[] commandsAvailable = world1.currentRoom.getCommands();
+            System.out.print( "Commands available: ");
+            for ( String command : commandsAvailable)
+            {
+             System.out.print( "\'" + command + "\' "  );
+            }
+            reader.setPrompt(Arrays.toString( commandsAvailable ) + "> ");
+          // System.out.print( Arrays.toString( commandsAvailable ) );
+           System.out.print( ">" );
+            //System.out.println( world1.currentRoom.getLongDescription() );
+
+            String commandRecieved = reader.readString( commandsAvailable );
+             
+            
+            
+            String firstWord = "help";//set it to help just in case they leave it blank
+            String lastWords = null;
+            if( commandRecieved.contains(" "))
+            {
+                firstWord = commandRecieved.substring(0, commandRecieved.indexOf(" ")); 
+                lastWords = commandRecieved.substring( commandRecieved.indexOf(" "), commandRecieved.length()); 
+            }//end if command recieved has a space in it
+
+            switch( firstWord.toLowerCase() )
+            {
+                case "help":
+                executeHelp( commandsAvailable );
+                break;
+                case "restart":
+                System.out.println("Restarting game.");
+                restart = true;
+                break;
+                case "quit":
+                System.exit(0);
+                break;
+                case "go":
+                executeGo( lastWords.trim() );//pass second word
+                break;
+                case "take":
+                executeTake( lastWords.trim() );//pass second word
+                break;
+                case "use":
+                executeUse( lastWords.trim() );//pass second word
+                break;
+                case "unlock":
+                executeUnlock( lastWords.trim() );//pass second word
+                break;
+                default:
+                System.out.println("Command failed. Try again.");
+                break;
+
+            }
+        }
+    }
+
+    public static void executeUnlock( String direction )
     {
-        case 1:
-        //not used
-        break;
+        if(world1.currentRoom.getDoor(direction).isLocked) 
+        {
+            if( world1.items.get("key") == null ) {
+                System.out.println("Sorry but you don't have a key. You will need to take one.");
+            }
+            else 
+            {
+                world1.currentRoom.getDoor(direction).isLocked = false;
+                System.out.println("You have unlocked the door.");
 
-        case 2:
-        //not used
-        break;
+            }
+        }
+    }
 
-        case 3:
-        //not used
-        break;
-    }//end switch
-    System.out.println("\n");
-    System.out.println("Pick your Armor....\n" + 
-    "1.) Light Armor (+2 to A.C.)\n" + 
-    "2.) Medium Armor (+4 to A.C. -2 to Initative Bonus) \n" + 
-    "3.) Heavy Armor (+6 to A.C. -4 to Initative Bonus\n");
-    int Armor = reader.readInt(1,3);
-    switch(Armor)
+    public static void executeHelp( String[] commands)
     {
-        case 1:
-        player1.ac = player1.ac + 2;
-        break;
+        System.out.println( wrap( world1.getCurrentRoom().getLongDescription() ) );
+        System.out.println();
+        System.out.println("Your command words are:");
+        System.out.println( Arrays.toString( commands ) );
+    }
 
-        case 2:
-        player1.ac = player1.ac + 4;
-
-        //player1.inititive = player.inititive -2;
-        break;
-
-        case 3:
-        player1.ac = player1.ac + 4;
-        //player1.inititive = player.inititive -4;
-        break;
-    }//end switch
-    System.out.println("\n");
-    System.out.println("Pick your Ability....\n" + 
-    "1.) Improved Initative (+4 to Initative Bonus) \n" + 
-    "2.) Combat Expertise (+2 to To Hit Bonus)  \n" + 
-    "3.) Evasive (+2 to A.C.) \n");
-    int Feat = reader.readInt(1,3);
-    switch(Feat)
+    public static void executeTake(String item)
     {
-        case 1:
-        //player1.inititive = player.inititive -2;
-        break;
 
-        case 2:
-        player1.attackBonus = player1.attackBonus + 2;
-        break;
+        System.out.println("You've just found " +world1.getCurrentRoom().item.getName()  + "! ");
+        world1.addItem(world1.getCurrentRoom().takeItem());
+    }
 
-        case 3:
-        player1.ac = player1.ac + 2;
-        break;
-    }//end switch
+    public static void executeGo( String direction )
+    {
+        // Try to leave current room.
+        Room nextRoom = world1.currentRoom.getExit( direction );
 
-}//end make character
+        if( world1.currentRoom.getDoor(direction).isLocked) 
+        {
+            if( world1.items.get("Key") == null) 
+            {
+                System.out.println("Sorry but the door is locked ! You will need to use a key.");
+            }
+            else 
+            {
+                System.out.println("You will need to unlock the door with your key first because the door is locked!");
 
-    
-public static void play() {
+            }
+        }
+        else 
+        {
+           
+            world1.currentRoom = nextRoom;
+            System.out.println( "──────────────────────────");
+            System.out.println( world1.currentRoom.getLongDescription());
+            
+            //Check if there are Character in the room
+            //
+            Monster roomMonster = world1.currentRoom.getMonster(); 
+            if( roomMonster != null ) 
+            {
+                System.out.println(  wrap("\nThere is a person in this Room..." + roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue()));
+                roomMonster.isAlive = true;
+            }
+            Equipment roomItem = world1.currentRoom.getItem(); 
+            if( roomItem != null ) 
+            {
+                System.out.println(  wrap("\nThere is an item in this Room..." + roomItem.name +".") );
+            }
+            
+            //System.out.println( world1.currentRoom.getCommands() );
+        }
+    }
 
-boolean restart = false;
+    public static void executeUse(String item)
+    {
+        System.out.println( "use not working yet" );
+        if(world1.items.get("Key")==null) {
+            System.out.println("Sorry but the door is locked ! Use the unlock command if you have a key.");
+        }
+        else 
+        {
+            System.out.println("You have to open the door to get out of there!");
 
-while( ! restart )
-{
-String[] commandsAvailable = world1.currentRoom.getCommands();
+        }
 
-reader.setPrompt(Arrays.toString( commandsAvailable ) + "> ");
+    }
 
-System.out.println( world1.currentRoom.getLongDescription() );
+    /**
+     * This method wraps long text in the console so that it is easier to read
+     */
+    private static String wrap(String longString) {
+        int MAX_WIDTH = 80;
+        String[] splittedString = longString.split(" ");
+        String resultString = "";
+        String lineString = "";
 
-String commandRecieved = reader.readString( commandsAvailable );
+        for (int i = 0; i < splittedString.length; i++) {
+            if (lineString.isEmpty()) {
+                lineString += splittedString[i];
+            } else if (lineString.length() + splittedString[i].length() < MAX_WIDTH) {
+                lineString += splittedString[i] + " ";
+            } else {
+                resultString += lineString + "\n";
+                lineString = " ";
+            }
+        }
 
-String firstWord = "help";//set it to help just in case they leave it blank
-String lastWords = null;
-if( commandRecieved.contains(" "))
-{
-firstWord = commandRecieved.substring(0, commandRecieved.indexOf(" ")); 
-lastWords = commandRecieved.substring( commandRecieved.indexOf(" "), commandRecieved.length()); 
-}//end if command recieved has a space in it
+        if(!lineString.isEmpty()){
+            resultString += lineString + "\n";
+        }
 
-switch( firstWord.toLowerCase() )
-{
-case "help":
-executeHelp( commandsAvailable );
-break;
-case "restart":
-System.out.println("Restarting game.");
-restart = true;
-break;
-case "quit":
-System.exit(0);
-break;
-case "go":
-executeGo( lastWords.trim() );//pass second word
-break;
-case "take":
-executeTake( lastWords.trim() );//pass second word
-break;
-case "use":
-executeUse( lastWords.trim() );//pass second word
-break;
-case "unlock":
-executeUnlock( lastWords.trim() );//pass second word
-break;
-default:
-System.out.println("Command failed. Try again.");
-break;
-
-}
-}
-}
-
-public static void executeUnlock( String direction )
-{
-if(world1.currentRoom.getDoor(direction).isLocked) 
-{
-if(world1.items.get("key")==null) {
-System.out.println("Sorry but you don't have a key. You will need to take one.");
-}
-else 
-{
-world1.currentRoom.getDoor(direction).isLocked = false;
-System.out.println("You have unlocked the door.");
-
-}
-}
-}
-
-public static void executeHelp( String[] commands)
-{
-System.out.println( wrap( world1.getCurrentRoom().getLongDescription() ) );
-System.out.println();
-System.out.println("Your command words are:");
-System.out.println( Arrays.toString( commands ) );
-}
-
-public static void executeTake(String item)
-{
-
-System.out.println("You've just found " +world1.getCurrentRoom().item.getName()  + " ! :) ");
-System.out.println( world1.getCurrentRoom().item.getName());
-world1.addItem(world1.getCurrentRoom().takeItem());
-}
-
-public static void executeGo( String direction )
-{
-// Try to leave current room.
-Room nextRoom = world1.currentRoom.getExit( direction );
-
-if( world1.currentRoom.getDoor(direction).isLocked) 
-{
-if( world1.items.get("Key") == null) 
-{
-System.out.println("Sorry but the door is locked ! You will need to use a key.");
-}
-else 
-{
-System.out.println("You have to open the door to get out of there!");
-
-}
-}
-else 
-{
-world1.currentRoom = nextRoom;
-//Check if there are Character in the room
-//
-Monster roomMonster = world1.currentRoom.getMonster(); 
-if(roomMonster != null ) 
-{
-System.out.println(  wrap("\nThere is a person in this Room...\n" + roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue()));
-roomMonster.isAlive = true;
-}
-
-// System.out.println(world1.currentRoom.getLongDescription());
-}
-}
-
-public static void executeUse(String item)
-{
-System.out.println( "use not working yet" );
-if(world1.items.get("Key")==null) {
-System.out.println("Sorry but the door is locked ! Use the unlock command if you have a key.");
-}
-else 
-{
-System.out.println("You have to open the door to get out of there!");
-
-}
-
-}
-
-/**
- * This method wraps long text in the console so that it is easier to read
- */
-private static String wrap(String longString) {
-int MAX_WIDTH = 80;
-String[] splittedString = longString.split(" ");
-String resultString = "";
-String lineString = "";
-
-for (int i = 0; i < splittedString.length; i++) {
-if (lineString.isEmpty()) {
-lineString += splittedString[i];
-} else if (lineString.length() + splittedString[i].length() < MAX_WIDTH) {
-lineString += splittedString[i] + " ";
-} else {
-resultString += lineString + "\n";
-lineString = " ";
-}
-}
-
-if(!lineString.isEmpty()){
-resultString += lineString + "\n";
-}
-
-return resultString;
-}
+        return resultString;
+    }
 
 }//Endworld1

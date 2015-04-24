@@ -41,11 +41,11 @@ public class World
         //Make rooms
         rooms = new ArrayList<Room>();
             Room entrance = new Room("near a door in the side of the hill that seems to have been there for awhile.\n You open the door and enter into a hall.");
-            Room pit_room = new Room("in a room that has a large pit in the center. There is a rope.");
+            Room pit_room = new Room("in a room that has a large pit in the center.");
             Room corridor = new Room("in the corridor. There is an iron door to the north that is locked, stairs going down \n to a rotten wooden door to the east and a open hall to the south.");
             Room teleport = new Room("You are in a room with a teleporter located on the west wall.");
             Room teleporter = new Room("You are telported to room with four doors and a ladder going up and down.");
-            Room fountain = new Room("in a large room with a fountain. There is a key in the fountain.");
+            Room fountain = new Room("in a large room with a fountain.");
             Room t_hall = new Room("in a hall that goes to a T. Stench comes from the west. Green glow from the east.");
             Room trap_room = new Room("A 20 x 20 room with an opening to the east that glows green and a trap door in the center of the room. There is a door to the West also.");
             Room treasure = new Room("in the tresure room. Mounds of gold fill the floor. \n There is ladder going up.");
@@ -99,20 +99,22 @@ public class World
         //Create items and equipment
         Equipment key = new Equipment("key", 1);
         Equipment rope = new Equipment("rope", 1);
+        Equipment ironspike = new Equipment("Iron Spike", 1);
         
         //Add items to list of items in world
         items = new HashMap<String, Equipment>();  
-        items.put(key.getName().toLowerCase(), key);
-        items.put(rope.getName().toLowerCase(), rope);
+       // items.put(key.getName().toLowerCase(), key);
+      //  items.put(rope.getName().toLowerCase(), rope);
         
         //Add items to rooms
-        pit_room.addItem(items.get("rope"));
-        fountain.addItem(items.get("key"));
+        pit_room.addItem( rope );
+        fountain.addItem( key );
+        t_hall.addItem( ironspike );
         
         //Create character
-        Monster orc1 = new Monster("Grunge the Orc", "Half Dead Orc on the ground:", "I'd kill you but this game doesn't allow combat. You'll have to figure that out in a different lab!");
+        Monster orc1 = new Monster("Grunge the Orc", "Half Dead Orc on the ground", "one I would kill you but this game does not allow combat. You will have to figure that out in a different lab!");
         corridor.addMonster(orc1);
-       Monster bill = new Monster("Bill the Magician", "Magic user who is also a pyromaniac:", "I'm stuck in this magic circle. Here is a fireball spell to help  you on  your journey. To bad this program doesn't do magic.");
+       Monster bill = new Monster("Bill the Magician", "Magic user who is also a pyromaniac:", "one I am stuck in this magic circle. Here is a fireball spell to help  you on  your journey. To bad this program does not do magic.");
        landing_room.addMonster(bill);
     }//End constructor
 

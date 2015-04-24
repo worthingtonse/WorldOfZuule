@@ -13,10 +13,10 @@ public class Room{
     //fields
     public String description;
     public ArrayList<Door> doors;
-    private Monster monster ;
+    public  Monster monster ;
     public Equipment item;   
-  //private ArrayList<Monster> monsters;
-  //private ArrayList<Purse> treasure;
+    //private ArrayList<Monster> monsters;
+    //private ArrayList<Purse> treasure;
 
     //constructors
     public Room(String description)
@@ -53,7 +53,7 @@ public class Room{
      * @return A long description of this room
      */
     public String getLongDescription() {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" ;//+ getExitString();
     }
 
     /**
@@ -88,9 +88,9 @@ public class Room{
             {
                 r =  d.roomOnOtherSideOfDoor;
             }//end if
-           
+
         }//end for
-         return r;
+        return r;
     }//end getExit
 
     /**
@@ -174,4 +174,11 @@ public class Room{
         return this.monster;
     }    
 
+    /**
+     * 
+     * @return the item of the room
+     */
+    public Equipment getItem() {
+        return this.item;
+    } 
 }//end room

@@ -8,8 +8,8 @@
 
 public class Equipment {
 
-    private String name;
-    private int weight;
+    public String name;
+    public int weight;
     
     /**
      * Create a new Equipment.
