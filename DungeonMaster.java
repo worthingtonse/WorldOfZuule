@@ -321,8 +321,10 @@ public class DungeonMaster {
 
     public static void executeHelp( String[] commands)
     {
-        System.out.println( wrap( world1.getCurrentRoom().getLongDescription() ) );
-        System.out.println();
+        String[] linesToPrint = wrapText( world1.getCurrentRoom().getLongDescription(), 80 );
+        for( int i = 0; i < linesToPrint.length; i++   ){
+              System.out.println( linesToPrint[i] );
+            }//end for each line
         System.out.println("Your command words are:");
         System.out.println( Arrays.toString( commands ) );
     }
