@@ -365,13 +365,15 @@ public class DungeonMaster {
             Monster roomMonster = world1.currentRoom.getMonster(); 
             if( roomMonster != null ) 
             {
-                System.out.println(  wrap("\nThere is a person in this Room..." + roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue()));
+                System.out.println( "There is a person in this Room..." );
+                System.out.println( roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue());
                 roomMonster.isAlive = true;
             }
             Equipment roomItem = world1.currentRoom.getItem(); 
             if( roomItem != null ) 
             {
-                System.out.println(  wrap("\nThere is an item in this Room..." + roomItem.name +".") );
+                System.out.println( "There is an item in this Room...");
+                System.out.println(  roomItem.name +".") );
             }
             
             //System.out.println( world1.currentRoom.getCommands() );
