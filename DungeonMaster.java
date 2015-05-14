@@ -321,10 +321,8 @@ public class DungeonMaster {
 
     public static void executeHelp( String[] commands)
     {
-        String[] linesToPrint = wrapText( world1.getCurrentRoom().getLongDescription(), 80 );
-        for( int i = 0; i < linesToPrint.length; i++   ){
-              System.out.println( linesToPrint[i] );
-            }//end for each line
+        System.out.println( wrap( world1.getCurrentRoom().getLongDescription() ) );
+        System.out.println();
         System.out.println("Your command words are:");
         System.out.println( Arrays.toString( commands ) );
     }
@@ -365,15 +363,13 @@ public class DungeonMaster {
             Monster roomMonster = world1.currentRoom.getMonster(); 
             if( roomMonster != null ) 
             {
-                System.out.println( "There is a person in this Room..." );
-                System.out.println( roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue());
+                System.out.println(  wrap("\nThere is a person in this Room..." + roomMonster.name +". "+ roomMonster.description + ": " + roomMonster.getDialogue()));
                 roomMonster.isAlive = true;
             }
             Equipment roomItem = world1.currentRoom.getItem(); 
             if( roomItem != null ) 
             {
-                System.out.println( "There is an item in this Room...");
-                System.out.println(  roomItem.name +".") );
+                System.out.println(  wrap("\nThere is an item in this Room..." + roomItem.name +".") );
             }
             
             //System.out.println( world1.currentRoom.getCommands() );
@@ -420,61 +416,5 @@ public class DungeonMaster {
 
         return resultString;
     }
-    
-    static String [] wrapText (String text, int len)
-{
-  // return empty array for null text
-  if (text == null)
-  return new String [] {};
-
-  // return text if len is zero or less
-  if (len <= 0)
-  return new String [] {text};
-
-  // return text if less than length
-  if (text.length() <= len)
-  return new String [] {text};
-
-  char [] chars = text.toCharArray();
-  Vector lines = new Vector();
-  StringBuffer line = new StringBuffer();
-  StringBuffer word = new StringBuffer();
-
-  for (int i = 0; i < chars.length; i++) {
-    word.append(chars[i]);
-
-    if (chars[i] == ' ') {
-      if ((line.length() + word.length()) > len) {
-        lines.add(line.toString());
-        line.delete(0, line.length());
-      }
-
-      line.append(word);
-      word.delete(0, word.length());
-    }
-  }
-
-  // handle any extra chars in current word
-  if (word.length() > 0) {
-    if ((line.length() + word.length()) > len) {
-      lines.add(line.toString());
-      line.delete(0, line.length());
-    }
-    line.append(word);
-  }
-
-  // handle extra line
-  if (line.length() > 0) {
-    lines.add(line.toString());
-  }
-
-  String [] ret = new String[lines.size()];
-  int c = 0; // counter
-  for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
-    ret[c] = (String) e.nextElement();
-  }
-
-  return ret;
-}
 
 }//Endworld1
